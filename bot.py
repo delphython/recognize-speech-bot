@@ -24,7 +24,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def detect_intent_texts(project_id, session_id, texts, language_code="en-US"):
+def detect_intent_texts(project_id, session_id, text, language_code="ru"):
     """Returns the result of detect intent with texts as inputs.
 
     Using the same `session_id` between requests allows continuation
@@ -33,33 +33,17 @@ def detect_intent_texts(project_id, session_id, texts, language_code="en-US"):
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)
-    # print("Session path: {}\n".format(session))
 
-    for text in texts:
-        text_input = dialogflow.TextInput(
-            text=text, language_code=language_code
-        )
+    # for text in texts:
+    text_input = dialogflow.TextInput(text=text, language_code=language_code)
 
-        query_input = dialogflow.QueryInput(text=text_input)
+    query_input = dialogflow.QueryInput(text=text_input)
 
-        response = session_client.detect_intent(
-            request={"session": session, "query_input": query_input}
-        )
+    response = session_client.detect_intent(
+        request={"session": session, "query_input": query_input}
+    )
 
-        # print("=" * 20)
-        # print("Query text: {}".format(response.query_result.query_text))
-        # print(
-        #     "Detected intent: {} (confidence: {})\n".format(
-        #         response.query_result.intent.display_name,
-        #         response.query_result.intent_detection_confidence,
-        #     )
-        # )
-        # print(
-        #     "Fulfillment text: {}\n".format(
-        #         response.query_result.fulfillment_text
-        #     )
-        # )
-        return response.query_result.fulfillment_text
+    return response.query_result.fulfillment_text
 
 
 def start(update: Update, context: CallbackContext) -> None:
@@ -81,7 +65,7 @@ def echo(update: Update, context: CallbackContext) -> None:
     reply_message = detect_intent_texts(
         project_id, sesion_id, update.message.text
     )
-    update.message.reply_text(update.message.text)
+    update.message.reply_text(reply_message)
 
 
 def main() -> None:
