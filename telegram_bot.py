@@ -12,9 +12,9 @@ from telegram.ext import (
     CallbackContext,
 )
 
-os.environ[
-    "GOOGLE_APPLICATION_CREDENTIALS"
-] = "C:\\Users\\kvv\\python\\recognize-speech-bot\\pelagic-berm-340508-a69ce9c87cda.json"
+# os.environ[
+#     "GOOGLE_APPLICATION_CREDENTIALS"
+# ] = "C:\\Users\\kvv\\python\\recognize-speech-bot\\pelagic-berm-340508-a69ce9c87cda.json"
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -71,6 +71,9 @@ def echo(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     """Start the bot."""
     load_dotenv()
+
+    google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
 
     global project_id
     global sesion_id

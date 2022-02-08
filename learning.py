@@ -5,11 +5,6 @@ from dotenv import load_dotenv
 from google.cloud import dialogflow
 
 
-os.environ[
-    "GOOGLE_APPLICATION_CREDENTIALS"
-] = "C:\\PythonProjects\\recognize-speech-bot\\pelagic-berm-340508-a69ce9c87cda.json"
-
-
 def create_intent(
     project_id, display_name, training_phrases_parts, message_texts
 ):
@@ -46,10 +41,12 @@ def create_intent(
 def main():
     load_dotenv()
 
+    google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
+
     project_id = os.getenv("PROJECT_ID")
 
     training_phrases_file = "training_phrases.json"
-    # intent_name = "Как устроиться к вам на работу"
 
     with open(training_phrases_file, "r", encoding="utf-8") as file:
         training_phrases = json.load(file)
