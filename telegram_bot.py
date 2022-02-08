@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 from google.cloud import dialogflow
-from telegram import Update, ForceReply
+from telegram import Update, ForceReply, Bot
 from telegram.ext import (
     Updater,
     CommandHandler,
@@ -13,12 +13,18 @@ from telegram.ext import (
 )
 
 
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
-)
-
 logger = logging.getLogger(__name__)
+
+
+class TelegramLogsHandler(logging.Handler):
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def detect_intent_texts(project_id, session_id, text, language_code="ru"):
@@ -61,20 +67,31 @@ def main():
     project_id = os.getenv("PROJECT_ID")
     sesion_id = os.getenv("SESSION_ID")
     telegram_token = os.getenv("TELEGRAM_TOKEN")
+    chat_id = os.getenv("CHAT_ID")
 
-    updater = Updater(telegram_token)
+    bot = Bot(token=telegram_token)
 
-    dispatcher = updater.dispatcher
+    logging.basicConfig(format="%(levelname)s %(message)s")
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(TelegramLogsHandler(bot, chat_id))
+    logger.info("Бот запущен!")
 
-    dispatcher.add_handler(CommandHandler("start", start))
+    try:
+        updater = Updater(telegram_token)
 
-    dispatcher.add_handler(
-        MessageHandler(Filters.text & ~Filters.command, echo)
-    )
+        dispatcher = updater.dispatcher
 
-    updater.start_polling()
+        dispatcher.add_handler(CommandHandler("start", start))
 
-    updater.idle()
+        dispatcher.add_handler(
+            MessageHandler(Filters.text & ~Filters.command, echo)
+        )
+
+        updater.start_polling()
+
+        updater.idle()
+    except Exception as err:
+        logger.exception(f"Бот упал с ошибкой: {err}")
 
 
 if __name__ == "__main__":
