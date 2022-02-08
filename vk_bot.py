@@ -13,7 +13,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 logger = logging.getLogger(__name__)
 
 
-class TelegramLogsHandler(logging.Handler):
+class VKLogsHandler(logging.Handler):
     def __init__(self, tg_bot, chat_id):
         super().__init__()
         self.chat_id = chat_id
@@ -64,7 +64,7 @@ def main():
 
     logging.basicConfig(format="%(levelname)s %(message)s")
     logger.setLevel(logging.DEBUG)
-    logger.addHandler(TelegramLogsHandler(bot, chat_id))
+    logger.addHandler(VKLogsHandler(bot, chat_id))
     logger.info("VK бот запущен!")
 
     vk_session = vk.VkApi(token=vk_token)
