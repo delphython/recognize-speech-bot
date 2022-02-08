@@ -12,9 +12,6 @@ from telegram.ext import (
     CallbackContext,
 )
 
-# os.environ[
-#     "GOOGLE_APPLICATION_CREDENTIALS"
-# ] = "C:\\Users\\kvv\\python\\recognize-speech-bot\\pelagic-berm-340508-a69ce9c87cda.json"
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -25,11 +22,6 @@ logger = logging.getLogger(__name__)
 
 
 def detect_intent_texts(project_id, session_id, text, language_code="ru"):
-    """Returns the result of detect intent with texts as inputs.
-
-    Using the same `session_id` between requests allows continuation
-    of the conversation."""
-
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)
@@ -46,8 +38,7 @@ def detect_intent_texts(project_id, session_id, text, language_code="ru"):
     return response.query_result.fulfillment_text
 
 
-def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
+def start(update: Update, context: CallbackContext):
     user = update.effective_user
     update.message.reply_markdown_v2(
         fr"Здравствуйте {user.mention_markdown_v2()}\!",
@@ -55,25 +46,15 @@ def start(update: Update, context: CallbackContext) -> None:
     )
 
 
-def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
-    update.message.reply_text("Help!")
-
-
-def echo(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
+def echo(update: Update, context: CallbackContext):
     reply_message = detect_intent_texts(
         project_id, sesion_id, update.message.text
     )
     update.message.reply_text(reply_message)
 
 
-def main() -> None:
-    """Start the bot."""
+def main():
     load_dotenv()
-
-    # google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
 
     global project_id
     global sesion_id
@@ -87,7 +68,6 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
 
     dispatcher.add_handler(
         MessageHandler(Filters.text & ~Filters.command, echo)
