@@ -74,7 +74,7 @@ def main():
     logging.basicConfig(format="%(levelname)s %(message)s")
     logger.setLevel(logging.DEBUG)
     logger.addHandler(TelegramLogsHandler(bot, chat_id))
-    logger.info("Бот запущен!")
+    logger.info("Telegram бот запущен!")
 
     try:
         updater = Updater(telegram_token)
@@ -91,7 +91,7 @@ def main():
 
         updater.idle()
     except Exception as err:
-        logger.exception(f"Бот упал с ошибкой: {err}")
+        logger.exception(f"Telegram бот упал с ошибкой: {err}")
 
 
 if __name__ == "__main__":

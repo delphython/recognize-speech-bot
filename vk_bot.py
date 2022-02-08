@@ -65,7 +65,7 @@ def main():
     logging.basicConfig(format="%(levelname)s %(message)s")
     logger.setLevel(logging.DEBUG)
     logger.addHandler(TelegramLogsHandler(bot, chat_id))
-    logger.info("Бот запущен!")
+    logger.info("VK бот запущен!")
 
     vk_session = vk.VkApi(token=vk_token)
     vk_api = vk_session.get_api()
@@ -81,7 +81,7 @@ def main():
                     user_id=event.user_id, message=reply_message, random_id=0
                 )
     except Exception as err:
-        logger.exception(f"Бот упал с ошибкой: {err}")
+        logger.exception(f"VK бот упал с ошибкой: {err}")
 
 
 if __name__ == "__main__":
