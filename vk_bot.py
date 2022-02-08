@@ -1,3 +1,4 @@
+import logging
 import os
 import random
 
@@ -6,6 +7,14 @@ import vk_api as vk
 from dotenv import load_dotenv
 from google.cloud import dialogflow
 from vk_api.longpoll import VkLongPoll, VkEventType
+
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
+
+logger = logging.getLogger(__name__)
 
 
 def detect_intent_texts(project_id, session_id, text, language_code="ru"):
