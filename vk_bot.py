@@ -52,8 +52,8 @@ def echo(event, vk_api):
 def main():
     load_dotenv()
 
-    google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
+    # google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
 
     vk_token = os.getenv("VK_TOKEN")
     project_id = os.getenv("PROJECT_ID")
