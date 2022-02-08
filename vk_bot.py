@@ -18,7 +18,6 @@ def detect_intent_texts(project_id, session_id, text, language_code="ru"):
 
     session = session_client.session_path(project_id, session_id)
 
-    # for text in texts:
     text_input = dialogflow.TextInput(text=text, language_code=language_code)
 
     query_input = dialogflow.QueryInput(text=text_input)
@@ -27,7 +26,10 @@ def detect_intent_texts(project_id, session_id, text, language_code="ru"):
         request={"session": session, "query_input": query_input}
     )
 
-    return response.query_result.fulfillment_text
+    if response.query_result.intent.is_fallback:
+        return None
+    else:
+        return response.query_result.fulfillment_text
 
 
 def echo(event, vk_api):
