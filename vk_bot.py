@@ -18,11 +18,6 @@ logger = logging.getLogger(__name__)
 
 
 def detect_intent_texts(project_id, session_id, text, language_code="ru"):
-    """Returns the result of detect intent with texts as inputs.
-
-    Using the same `session_id` between requests allows continuation
-    of the conversation."""
-
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)
@@ -51,9 +46,6 @@ def echo(event, vk_api):
 
 def main():
     load_dotenv()
-
-    # google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
 
     vk_token = os.getenv("VK_TOKEN")
     project_id = os.getenv("PROJECT_ID")
