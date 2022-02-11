@@ -43,14 +43,6 @@ def detect_intent_texts(project_id, session_id, text, language_code="ru"):
         return response.query_result.fulfillment_text
 
 
-def echo(event, vk_api):
-    vk_api.messages.send(
-        user_id=event.user_id,
-        message=event.text,
-        random_id=random.randint(1, 1000),
-    )
-
-
 def main():
     load_dotenv()
 
