@@ -53,7 +53,9 @@ def start(update: Update, context: CallbackContext):
 
 def echo(update: Update, context: CallbackContext):
     reply_message = detect_intent_texts(
-        project_id, sesion_id, update.message.text
+        context.bot_data["project_id"],
+        context.bot_data["sesion_id"],
+        update.message.text,
     )
     update.message.reply_text(reply_message)
 
@@ -61,13 +63,15 @@ def echo(update: Update, context: CallbackContext):
 def main():
     load_dotenv()
 
-    global project_id
-    global sesion_id
-
     project_id = os.getenv("PROJECT_ID")
     sesion_id = os.getenv("SESSION_ID")
     telegram_token = os.getenv("TELEGRAM_TOKEN")
     chat_id = os.getenv("CHAT_ID")
+
+    bot_data = {
+        "project_id": project_id,
+        "sesion_id": sesion_id,
+    }
 
     bot = Bot(token=telegram_token)
 
@@ -86,6 +90,8 @@ def main():
         dispatcher.add_handler(
             MessageHandler(Filters.text & ~Filters.command, echo)
         )
+
+        dispatcher.bot_data = bot_data
 
         updater.start_polling()
 
