@@ -43,7 +43,7 @@ def main():
 
     project_id = os.getenv("PROJECT_ID")
 
-    training_phrases_file = "training_phrases.json"
+    training_phrases_file = os.getenv("TRAINING_PHRASES_FILE")
 
     with open(training_phrases_file, "r", encoding="utf-8") as file:
         training_phrases = json.load(file)
