@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 
 ## Installation for developer mode
-You have to set TELEGRAM_TOKEN, VK_TOKEN, CHAT_ID, PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS and SESSION_ID environment variables before using the script.
+You have to set TELEGRAM_TOKEN, VK_TOKEN, CHAT_ID, PROJECT_ID, GOOGLE_APP_CREDENTIALS_FILE, SESSION_ID and TRAINING_PHRASES_FILE environment variables before using the script.
 
 1. Create .env file in the project directory.
 2. Create the bot and get a token from Telegram, see [this tutorial](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token) for instructions. Copy your Telegram API token to .env file:
@@ -32,11 +32,15 @@ PROJECT_ID="pelagic-berm-123456"
 6. Create the DialogFlow agent, see [this tutorial](https://cloud.google.com/dialogflow/docs/quick/build-agent) for instructions. Make sure that use the Russian language for the agent. Then create new `Intent` and add there `Training phrases` and `Response`.
 7. Create a service account key, see [this tutorial](https://cloud.google.com/docs/authentication/getting-started). A JSON key file is downloaded to your computer. Copy it to the project folder and add the file's full path to .env file:
 ```
-GOOGLE_APPLICATION_CREDENTIALS="C:\\Projects\\recognize-speech-bot\\pelagic-berm-123456-a00ce1c22cda.json"
+GOOGLE_APP_CREDENTIALS_FILE="C:\\Projects\\recognize-speech-bot\\pelagic-berm-123456-a00ce1c22cda.json"
 ```
 8. `session_id` - this is a unique string to distinguish one user from another. You can use Telegram user ID for example. Copy it to .env file:
 ```
 SESSION_ID="123456789"
+```
+9. `TRAINING_PHRASES_FILE` - the path to the training phrases file. It needs to train DialogFlow by API. Copy it to .env file:
+```
+TRAINING_PHRASES_FILE="training_phrases.json"
 ```
 
 ## Usage
@@ -49,7 +53,12 @@ For VK bot run python script:
 ```sh
 python vk_bot.py
 ```
-Use Ctrl+C to interrupt the script.
+Use Ctrl+C to interrupt the script.   
+
+For training DialogFlow by API run python script:
+```sh
+python learning.py
+```
 
 ## Installation for production mode and deploy
 For deploying on [Heroku](https://www.heroku.com) you should:
