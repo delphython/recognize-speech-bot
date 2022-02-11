@@ -38,8 +38,9 @@ def create_intent(
 def main():
     load_dotenv()
 
-    google_app_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_app_credentials
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv(
+        "GOOGLE_APP_CREDENTIALS_FILE"
+    )
 
     project_id = os.getenv("PROJECT_ID")
 
