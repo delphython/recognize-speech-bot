@@ -51,7 +51,7 @@ def start(update: Update, context: CallbackContext):
     )
 
 
-def echo(update: Update, context: CallbackContext):
+def responds_to_messages(update: Update, context: CallbackContext):
     reply_message = detect_intent_texts(
         context.bot_data["project_id"],
         context.bot_data["sesion_id"],
@@ -88,7 +88,9 @@ def main():
         dispatcher.add_handler(CommandHandler("start", start))
 
         dispatcher.add_handler(
-            MessageHandler(Filters.text & ~Filters.command, echo)
+            MessageHandler(
+                Filters.text & ~Filters.command, responds_to_messages
+            )
         )
 
         dispatcher.bot_data = bot_data
