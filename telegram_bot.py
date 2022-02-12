@@ -31,7 +31,9 @@ def responds_to_messages(update: Update, context: CallbackContext):
         context.bot_data["sesion_id"],
         update.message.text,
     )
-    update.message.reply_text(reply_message)
+    update.message.reply_text(
+        "Бот не смог распознать фразу."
+    ) if not reply_message else update.message.reply_text(reply_message)
 
 
 def main():
