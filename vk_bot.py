@@ -36,12 +36,15 @@ def main():
         longpoll = VkLongPoll(vk_session)
         for event in longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                reply_message = detect_intent_texts(
+                dialogflow_query_result = detect_intent_texts(
                     project_id, sesion_id, event.text
                 )
-                vk_api.messages.send(
-                    user_id=event.user_id, message=reply_message, random_id=0
-                )
+                if not dialogflow_query_result.intent.is_fallback:
+                    vk_api.messages.send(
+                        user_id=event.user_id,
+                        message=dialogflow_query_result.fulfillment_text,
+                        random_id=0,
+                    )
     except Exception as err:
         logger.exception(f"VK бот упал с ошибкой: {err}")
 
