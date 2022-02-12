@@ -11,7 +11,8 @@ from telegram.ext import (
     CallbackContext,
 )
 
-from helper import TelegramLogsHandler, detect_intent_texts
+from tg_log_handler import TelegramLogsHandler
+from dialog_flow import detect_intent_texts
 
 
 logger = logging.getLogger(__name__)
