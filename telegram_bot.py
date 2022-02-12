@@ -27,14 +27,12 @@ def start(update: Update, context: CallbackContext):
 
 
 def responds_to_messages(update: Update, context: CallbackContext):
-    reply_message = detect_intent_texts(
+    dialogflow_query_result = detect_intent_texts(
         context.bot_data["project_id"],
         context.bot_data["sesion_id"],
         update.message.text,
     )
-    update.message.reply_text(
-        "Бот не смог распознать фразу."
-    ) if not reply_message else update.message.reply_text(reply_message)
+    update.message.reply_text(dialogflow_query_result.fulfillment_text)
 
 
 def main():
