@@ -38,10 +38,6 @@ def create_intent(
 def main():
     load_dotenv()
 
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv(
-        "GOOGLE_APP_CREDENTIALS_FILE"
-    )
-
     project_id = os.getenv("PROJECT_ID")
 
     training_phrases_file = os.getenv("TRAINING_PHRASES_FILE")
