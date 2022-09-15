@@ -78,11 +78,11 @@ heroku buildpacks:add https://github.com/gerywahyunugraha/heroku-google-applicat
 where app_name is the app's name you create.
 7. Don't forget to renew the project repository on Heroku.
 
-## Try the bots
-1. Link to the Telegram bot: [@my_cooking_timer_bot](https://t.me/my_cooking_timer_bot)
+## How bots work
+1. Telegram bot:
 ![alt text](./telegram-bot.gif)
 
-2. Link to the VK bot: [Test Group](https://vk.com/im?sel=-210593620)
+2. VK bot:
 ![alt text](./vk-bot.gif)
 
 ## Meta
